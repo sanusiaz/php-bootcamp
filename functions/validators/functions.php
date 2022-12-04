@@ -10,15 +10,13 @@
     {
         if ( !empty($text) )
         {
-            if ( preg_match("/^[a-zA-Z0-9]+$/", $text) )
+            if ( !preg_match("/^[a-zA-Z0-9]+$/", $text) )
             {
-                $text = preg_replace("#[^a-zA-Z0-9]#", "", $text);
-
                 return ( strlen($text) >= $strlen ) ? true : false;
             }
         }
 
-        return false;
+        return true;
     }
 
 

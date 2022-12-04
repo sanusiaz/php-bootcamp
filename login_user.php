@@ -1,5 +1,14 @@
 <?php
 
+
+    
+    if (!session_start())
+    {
+        session_start();
+    }
+
+
+
     $validator_function = dirname(__FILE__) . './functions/validators/functions.php';
     $database_connection_file = dirname(__FILE__) . './database/connect_database.php';
 
@@ -22,81 +31,91 @@
         {
             if (empty($_POST[$inputValue]))
             {
-                die("Fill all Inputs " . $inputValue);
+                $_SESSION['error'] = "Fill All Inputs";
             }
         }
      
         $email          = $_POST['email'];
         $password       = $_POST['password'];
-
-        if ( !validating_email($email) ) 
-        {
-            die("Invalid Email");
-        }
-
-        if ( !validate_password($password, 20) )
-        {
-            die("The Max is 20 ");
-        }
-
-
-        // check the user if account account has not been created before
-        if ( $stmp = $conn->prepare("SELECT first_name, last_name, password as hashed_password FROM users WHERE email = ?") )
-        {
-            $stmp->bind_param("s", $email);
-            $stmp->execute();
-            $stmp->store_result();
-
-            if ( $stmp->num_rows > 0 )
-            {
-                $stmp->bind_result($first_name, $last_name, $hashed_password);
-
-
-                if ( !password_verify($password, $hashed_password) )
-                {
-                    die("Invalid Password Entered");
-                }
-
-
-
-                // login the users in here
-                
-            }
-            else 
-            {
-
-                // create an account for users
-            
-                if ($createAccount = $conn->prepare("INSERT INTO users(first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)"))
-                {
-                    $createAccount->bind_param("sssss", $firstname, $lastname, $email, $username, $hashed_password);
-                    
-                    if ( $createAccount->execute() )
-                    {
-                        $createAccount->store_result();
-
-                        echo "Account Has Been Created Successfully";
-
-
-                        // send email to users
-                    }
-                    
-                    
-                    $createAccount->close();
-                }
-                
-            }
-
-            $stmp->close();
         
+        
+        if ( !isset($_SESSION['error']) )
+        {
+            
+            $email      = mysqli_real_escape_string($conn, $email);
+            $password   = mysqli_real_escape_string($conn, $password);
+            
+            if ( !validating_email($email) ) 
+            {
+                $_SESSION['error'] = "Invalid Email";
+            }
+            
+            if ( !validate_password($password, 20) )
+            {
+                $_SESSION['error'] = "Invalid Password MAx 20";
+            }
+    
+    
+            // check the user if account account has not been created before
+            if ( $stmp = $conn->prepare("SELECT first_name, last_name, password as hashed_password FROM users WHERE email = ?") )
+            {
+                $stmp->bind_param("s", $email);
+                $stmp->execute();
+                $stmp->store_result();
+    
+                if ( $stmp->num_rows > 0 )
+                {
+
+                    $stmp->bind_result($first_name, $last_name, $hashed_password);
+                    $stmp->fetch();
+                        
+                    if ( !password_verify($password, $hashed_password) )
+                    {
+                        $_SESSION['error'] = "Wrong Password Entered";
+                    }    
+                    else
+                    {
+
+                        // login the users in here
+                        $_SESSION['email'] = $email;
+                        $_SESSION['password'] = $password;
+        
+                        $_SESSION['success'] = "Welcome " . $first_name;
+                            
+                        unset($_SESSION['error']);
+                        header("Location: /admin/dashboard.php");
+                        exit();
+                    }
+    
+    
+                }
+                else
+                {   
+                    $_SESSION['error'] = "Invalid User";
+                }
+
+              
+                $stmp->close();
+            
+            }
+
+            else{
+                $_SESSION['error'] = "Error From Query";
+            }
         }
+
            
            
     }
     else
     {
-        echo json_decode("Unsupported Route");
+
+        $_SESSION['error'] = "Unsupported Route";
     }
 
 
     mysqli_close($conn);
+
+
+   // handle way
+   echo "<script>" .  "window.location.href = './login.php';" . "</script>";

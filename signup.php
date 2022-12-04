@@ -1,3 +1,15 @@
+<?php
+
+    if ( !session_start() )
+    {
+        session_start();
+    }
+
+    $error_message = (isset($_SESSION['error']) && !empty($_SESSION['error'])) ? $_SESSION['error'] : "";
+    $success_message = (isset($_SESSION['success']) && !empty($_SESSION['success'])) ? $_SESSION['success'] : "";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,5 +167,37 @@
         </div>
       </form>
     </div>
+
+
+
+    <?php if(!empty($error_message)):?>
+        <div class="text-red text-sm p-3 overflow-hidden px-7 truncate text-ellipsis text-red-600 max-w-[200px] sm:max-w-[350px] md:max-w-[400px] fixed bottom-2 right-2 border-red-600 bg-red-300">
+            <?= $error_message;?>
+        </div>
+    <?php endif;?>
+
+
+    <?php if(!empty($success_message)):?>
+        <div class="text-green text-sm p-3 overflow-hidden px-7 truncate text-ellipsis text-green-600 max-w-[200px] sm:max-w-[350px] md:max-w-[400px] fixed bottom-2 right-2 border-green-600 bg-green-300">
+            <?= $success_message;?>
+        </div>
+    <?php endif;?>
+
+
+
+
+    <?php
+    
+        if ( isset($_SESSION['success']) )
+        {
+            unset($_SESSION['success']);
+        }
+
+
+        if ( isset($_SESSION['error']) )
+        {
+            unset($_SESSION['error']);
+        }
+    ?>
 </body>
 </html>
