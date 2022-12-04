@@ -9,10 +9,6 @@
         {
             die("An error occurred in connecting to database " );
         }
-        else 
-        {
-            echo "Connection Was made successfully to database <br>" ;
-        }
     }
     else 
     {

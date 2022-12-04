@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
     <div class="w-full h-screen flex items-center justify-center bg-indigo-100">
-      <form class="w-full md:w-1/3 rounded-lg">
+      <form method="POST" action="./login_user.php" class="w-full md:w-1/3 rounded-lg">
         <div class="flex font-bold justify-center mt-6">
           <img class="h-20 w-20 mb-3" src="https://dummyimage.com/64x64" />
         </div>
@@ -62,6 +64,9 @@
           >
             Login
           </button>
+
+
+          <a href="./signup.php" class="text-gray-800 text-center m-auto text-xs block py-5">Create an account</a>
         </div>
       </form>
     </div>

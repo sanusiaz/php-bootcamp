@@ -34,7 +34,13 @@
     //                 ADD CONSTRAINT user_to_posts_2 
     //                 FOREIGN KEY (id) 
     //                     REFERENCES posts(user_id) 
-    //                 ON DELETE CASCADE";    
+    //                 ON DELETE CASCADE";  
+    
+    
+    
+    $queries[] = "ALTER TABLE users 
+                    ADD COLUMN password 
+                    TEXT NOT NULL";  
 
     foreach( $tables as $table )
     {
@@ -51,14 +57,14 @@
     }
 
 
-    // foreach ($queries as $sql_query)
-    // {
-    //     $raw_query = mysqli_query($conn, $sql_query);
+    foreach ($queries as $sql_query)
+    {
+        $raw_query = mysqli_query($conn, $sql_query);
 
-    //     // check if there is error in query 
-    //     if ( mysqli_error($conn) )
-    //     {
-    //         die("An error Occurred In Performing Query " . mysqli_error($conn));
-    //     }
+        // check if there is error in query 
+        if ( mysqli_error($conn) )
+        {
+            die("An error Occurred In Performing Query " . mysqli_error($conn));
+        }
        
-    // }
+    }
