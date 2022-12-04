@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "tailwindcss": "^3.2.4"
+  },
+  "name": "tut_1",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "devDependencies": {},
+  "scripts": {
+    "build-css": "npx tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
