@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="w-full h-screen flex items-center justify-center bg-indigo-100">
-      <form method="POST" action="./login_user.php" class="w-full md:w-1/3 rounded-lg">
+      <form method="POST" action="./change_password.php" class="w-full md:w-1/3 rounded-lg">
         <div class="flex font-bold justify-center mt-6">
           <img class="h-20 w-20 mb-3" src="https://dummyimage.com/64x64" />
         </div>
