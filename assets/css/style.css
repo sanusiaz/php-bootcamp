@@ -2351,6 +2351,10 @@ video {
   content: var(--tw-content);
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .hover\:font-bold:hover{
   font-weight: 700;
 }
